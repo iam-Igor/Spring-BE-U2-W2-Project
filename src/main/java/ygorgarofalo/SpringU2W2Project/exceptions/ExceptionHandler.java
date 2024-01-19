@@ -3,6 +3,10 @@ package ygorgarofalo.SpringU2W2Project.exceptions;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import ygorgarofalo.SpringU2W2Project.payloads.errors.ErrorsPayloadWithList;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RestControllerAdvice
 public class ExceptionHandler {
@@ -10,8 +14,11 @@ public class ExceptionHandler {
 
     @org.springframework.web.bind.annotation.ExceptionHandler(BadRequestExc.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorsBody handleBadRequest(BadRequestExc ex) {
-        return new ErrorsBody(ex.getMessage());
+    public ErrorsPayloadWithList handleBadRequest(BadRequestExc e) {
+        List<String> errorsMessages = new ArrayList<>();
+        if (e.getErrorsList() != null)
+            errorsMessages = e.getErrorsList().stream().map(err -> err.getDefaultMessage()).toList();
+        return new ErrorsPayloadWithList(e.getMessage(), errorsMessages);
     }
 
 

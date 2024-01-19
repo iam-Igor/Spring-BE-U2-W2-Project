@@ -38,7 +38,7 @@ public class UserController {
     @ResponseStatus(HttpStatus.CREATED)
     public UserResponse saveUser(@RequestBody @Validated UserPayloadDTO user, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            throw new BadRequestExc("Errori nel payload della richiesta");
+            throw new BadRequestExc(bindingResult.getAllErrors());
         } else {
             User newuser = userService.saveUser(user);
             return new UserResponse(newuser.getId());
@@ -49,7 +49,7 @@ public class UserController {
     @PutMapping("/{id}")
     public User updateUser(@PathVariable long id, @RequestBody UserPayloadDTO updatedUser, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            throw new BadRequestExc("Errori nel payload della richiesta");
+            throw new BadRequestExc(bindingResult.getAllErrors());
         } else {
             return userService.findByIdAndUpdate(id, updatedUser);
         }

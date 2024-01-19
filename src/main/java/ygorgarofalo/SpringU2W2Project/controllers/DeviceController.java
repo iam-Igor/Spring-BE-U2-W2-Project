@@ -48,7 +48,7 @@ public class DeviceController {
         // non avendo usato uno enum devo accertarmi che i valori di status e device typoe siano scritte correttamente
 
         if (bindingResult.hasErrors()) {
-            throw new BadRequestExc("Errori nel payload della richiesta");
+            throw new BadRequestExc(bindingResult.getAllErrors());
         } else if (!payload.status().equals("DISPONIBILE") &&
                 !payload.status().equals("ASSEGNATO") &&
                 !payload.status().equals("IN_MANUTENZIONE") &&
@@ -93,7 +93,7 @@ public class DeviceController {
 
 
         if (bindingResult.hasErrors()) {
-            throw new BadRequestExc("Errori nel payload della richiesta");
+            throw new BadRequestExc(bindingResult.getAllErrors());
         } else if (!payload.status().equals("DISPONIBILE") &&
                 !payload.status().equals("ASSEGNATO") &&
                 !payload.status().equals("IN_MANUTENZIONE") &&
