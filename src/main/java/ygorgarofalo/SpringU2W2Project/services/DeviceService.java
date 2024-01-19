@@ -45,7 +45,6 @@ public class DeviceService {
     public Device saveDevice(DevicePayloadDTO payload) {
 
         Device newDevice = new Device(payload.status(), payload.deviceType());
-
         return deviceDAO.save(newDevice);
 
     }

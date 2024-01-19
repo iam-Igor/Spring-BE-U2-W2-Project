@@ -1,5 +1,6 @@
 package ygorgarofalo.SpringU2W2Project.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -7,14 +8,12 @@ import jakarta.persistence.OneToMany;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 import java.util.List;
 
 @Entity
 @Getter
 @Setter
-@ToString
 @NoArgsConstructor
 public class User {
 
@@ -31,6 +30,7 @@ public class User {
 
     private String username;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<Device> deviceList;
 

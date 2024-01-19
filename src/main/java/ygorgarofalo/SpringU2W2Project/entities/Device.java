@@ -2,6 +2,7 @@ package ygorgarofalo.SpringU2W2Project.entities;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -9,6 +10,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
+@NoArgsConstructor
 public class Device {
 
     @Id
@@ -32,5 +34,5 @@ public class Device {
         this.deviceType = deviceType;
     }
 
-    
+
 }
