@@ -38,10 +38,10 @@ public class UserService {
 
     public User saveUser(UserPayloadDTO payload) {
 
-        // controlli sull'esistenza sul db di email e username tramite un booleano creato sul dao di User
 
         User newUser = new User(payload.name(), payload.surname(), payload.email(), payload.username());
 
+        // controlli sull'esistenza sul db di email e username tramite due metodi booleani creati sul dao di User
         if (userDAO.existsByEmail(payload.email())) {
             throw new BadRequestExc("L'email " + payload.email() + " è gia presente nel sistema.");
         } else if (userDAO.existsByUsername(payload.username())) {
@@ -54,6 +54,39 @@ public class UserService {
 
             return userDAO.save(newUser);
         }
+
+    }
+
+
+    //metodo richiamato da PUT /users/id
+
+    public User findByIdAndUpdate(long id, UserPayloadDTO payload) {
+
+        User foundUser = this.findById(id);
+
+        if (userDAO.existsByEmail(payload.email())) {
+            throw new BadRequestExc("L'email " + payload.email() + " è gia presente nel sistema.");
+        } else if (userDAO.existsByUsername(payload.username())) {
+            throw new BadRequestExc("Lo username " + payload.username() + " è gia presente nel sistema.");
+        } else {
+            foundUser.setName(payload.name());
+            foundUser.setSurname(payload.surname());
+            foundUser.setEmail(payload.email());
+            foundUser.setUsername(payload.username());
+
+            return userDAO.save(foundUser);
+        }
+
+
+    }
+
+
+    // metodo richiamato da Delete /users/id
+
+    public void findByidAndDelete(long id) {
+        User foundUser = this.findById(id);
+
+        userDAO.delete(foundUser);
 
     }
 }
