@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import ygorgarofalo.SpringU2W2Project.entities.User;
 import ygorgarofalo.SpringU2W2Project.exceptions.BadRequestExc;
 import ygorgarofalo.SpringU2W2Project.payloads.UserPayloadDTO;
@@ -61,6 +62,14 @@ public class UserController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteUser(@PathVariable long id) {
         userService.findByidAndDelete(id);
+    }
+
+
+    //PATCH per uploadare immagine e ricevere la stringa da salvare nel db
+
+    @PatchMapping("/{userId}/upload")
+    public String uploadAvatarImg(@RequestParam("image") MultipartFile file, @PathVariable long userId) throws Exception {
+        return userService.uploadImage(file, userId);
     }
 
 

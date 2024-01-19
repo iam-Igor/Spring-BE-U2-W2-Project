@@ -30,6 +30,8 @@ public class User {
 
     private String username;
 
+    private String avatarUrl;
+
     @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<Device> deviceList;
@@ -40,5 +42,6 @@ public class User {
         this.surname = surname;
         this.email = email;
         this.username = username;
+        this.avatarUrl = null;
     }
 }
