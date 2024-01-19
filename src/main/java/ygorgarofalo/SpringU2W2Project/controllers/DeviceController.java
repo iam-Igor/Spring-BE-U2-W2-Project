@@ -75,8 +75,13 @@ public class DeviceController {
     @PutMapping("/assign")
     @ResponseStatus(HttpStatus.CREATED)
     public Device assignDevice(@RequestBody DeviceAssignmentPayloadDTO payload, BindingResult bindingResult) {
+
+        Device found = deviceService.findById(payload.deviceId());
+
         if (bindingResult.hasErrors()) {
             throw new BadRequestExc("Errori nel payload della richiesta");
+        } else if (!found.getStatus().equals("DISPONIBILE")) {
+            throw new BadRequestExc("Errore nell'associazione del device in quanto risulta in stato: " + found.getStatus());
         } else {
             deviceService.assignUserToDevice(payload);
             return deviceService.findById(payload.deviceId());
