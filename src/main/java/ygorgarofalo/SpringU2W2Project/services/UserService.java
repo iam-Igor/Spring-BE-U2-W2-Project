@@ -47,10 +47,6 @@ public class UserService {
         } else if (userDAO.existsByUsername(payload.username())) {
             throw new BadRequestExc("Lo username " + payload.username() + " è gia presente nel sistema.");
         } else {
-            newUser.setName(payload.name());
-            newUser.setSurname(payload.surname());
-            newUser.setEmail(payload.email());
-            newUser.setUsername(payload.username());
 
             return userDAO.save(newUser);
         }
