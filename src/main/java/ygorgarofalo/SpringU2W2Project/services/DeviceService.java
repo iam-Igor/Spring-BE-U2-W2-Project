@@ -74,7 +74,7 @@ public class DeviceService {
     }
 
 
-    // metodo PUT su /devices/assign con payload per assegnare un dispositivo ad un utente
+    // metodo associato al PUT su /devices/assign con payload per assegnare un dispositivo ad un utente
     //il payload contiene un id utente e un id device
 
     public Device assignUserToDevice(DeviceAssignmentPayloadDTO payload) {

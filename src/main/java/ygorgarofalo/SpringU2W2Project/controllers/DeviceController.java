@@ -67,8 +67,10 @@ public class DeviceController {
     }
 
 
-    // PUT per associare un dispositivo ad uno user, passo nela payload id utente e id post
+    // PUT per associare un dispositivo ad uno user, passo nela payload id utente e id device
     //la funzione assignUserToDevice del service assegnerà lo user al device corretto
+    // per problemi legati alla infinita ricursione stackoverflow, ho aggiunto @JsonIgnore alla lista di devices
+    // nella classe user
 
     @PutMapping("/assign")
     @ResponseStatus(HttpStatus.CREATED)
@@ -83,11 +85,38 @@ public class DeviceController {
     }
 
 
+    //METODO PUT SPECIFICANDO SOLO PARAMETRO ID, SOLO PER AGGIORNARE LE PROPRIETA' DI UN DEVICE
+    // CHE NON SIANO QUELLE LEGATE AD UN UTENTE
+    @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.CREATED)
+    public Device updateDevice(@PathVariable long id, @RequestBody DevicePayloadDTO payload, BindingResult bindingResult) {
+
+
+        if (bindingResult.hasErrors()) {
+            throw new BadRequestExc("Errori nel payload della richiesta");
+        } else if (!payload.status().equals("DISPONIBILE") &&
+                !payload.status().equals("ASSEGNATO") &&
+                !payload.status().equals("IN_MANUTENZIONE") &&
+                !payload.status().equals("DISMESSO")) {
+            throw new BadRequestExc("Errore nella sintassi dello status; Diciture diponibili: DISPONIBILE, ASSEGNATO, IN_MANUTENZIONE, DISMESSO");
+        } else if (!payload.deviceType().equals("SMARTPHONE") &&
+                !payload.deviceType().equals("TABLET") &&
+                !payload.deviceType().equals("LAPTOP")) {
+            throw new BadRequestExc("Errore nella sintassi del tipo di dispositivo; Diciture disponibili: SMARTPHONE, TABLET, LAPTOP");
+        } else {
+            return deviceService.findByIdAndUpdate(id, payload);
+        }
+
+
+    }
+
+
     // DELETE di un device
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteUser(@PathVariable long id) {
         deviceService.findByIdAndDelete(id);
     }
+
 
 }
